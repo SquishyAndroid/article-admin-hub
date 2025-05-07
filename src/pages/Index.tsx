@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Article } from "../types";
 import { fetchArticles, updateArticle, createArticle } from "../services/api";
-import ArticleList from "../components/ArticleList";
+import ArticleTable from "../components/ArticleTable";
 import ArticleDetailModal from "../components/ArticleDetailModal";
 import CreateArticleModal from "../components/CreateArticleModal";
 import Header from "../components/Header";
@@ -155,7 +155,7 @@ const Index = () => {
         onSearch={handleSearch}
       />
       
-      <ArticleList
+      <ArticleTable
         articles={filteredArticles}
         onArticleClick={handleArticleClick}
         isLoading={isLoading}
