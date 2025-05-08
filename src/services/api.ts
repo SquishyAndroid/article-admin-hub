@@ -1,4 +1,3 @@
-
 import { ApiResponse, Article } from '../types';
 
 // This is a mock API service - in a real application this would connect to your actual API
@@ -20,13 +19,15 @@ const mockArticles: Article[] = [
         id: 's1',
         title: 'Introduction',
         content: 'React is a JavaScript library created by Facebook. It is used for building user interfaces, specifically for single-page applications.',
-        order: 1
+        order: 1,
+        sectionType: 'PARAGRAPH'
       },
       {
         id: 's2',
         title: 'Setting Up',
         content: 'To get started with React, you need Node.js installed. You can create a new React application using Create React App.',
-        order: 2
+        order: 2,
+        sectionType: 'PARAGRAPH'
       },
     ],
     featuredImage: 'https://picsum.photos/800/400'
@@ -45,13 +46,15 @@ const mockArticles: Article[] = [
         id: 's1',
         title: 'What is TypeScript?',
         content: 'TypeScript is a free and open-source programming language developed and maintained by Microsoft.',
-        order: 1
+        order: 1,
+        sectionType: 'ARTICLE_TITLE'
       },
       {
         id: 's2',
         title: 'Benefits',
         content: 'TypeScript adds static typing to JavaScript, which can help catch errors early and improve developer productivity.',
-        order: 2
+        order: 2,
+        sectionType: 'PARAGRAPH'
       },
     ]
   },
@@ -69,13 +72,15 @@ const mockArticles: Article[] = [
         id: 's1',
         title: 'Grid Basics',
         content: 'CSS Grid Layout is a two-dimensional system, meaning it can handle both columns and rows.',
-        order: 1
+        order: 1,
+        sectionType: 'PARAGRAPH'
       },
       {
         id: 's2',
         title: 'Creating a Grid',
         content: 'To create a grid container, you set the display property to grid or inline-grid.',
-        order: 2
+        order: 2,
+        sectionType: 'PARAGRAPH'
       },
     ],
     featuredImage: 'https://picsum.photos/800/401'
@@ -94,13 +99,15 @@ const mockArticles: Article[] = [
         id: 's1',
         title: 'What is an API?',
         content: 'API stands for Application Programming Interface. It allows different software applications to communicate with each other.',
-        order: 1
+        order: 1,
+        sectionType: 'ARTICLE_TITLE'
       },
       {
         id: 's2',
         title: 'REST Architecture',
         content: 'REST (Representational State Transfer) is an architectural style for designing networked applications.',
-        order: 2
+        order: 2,
+        sectionType: 'PARAGRAPH'
       },
     ],
     featuredImage: 'https://picsum.photos/800/402'
@@ -119,13 +126,15 @@ const mockArticles: Article[] = [
         id: 's1',
         title: 'Module Pattern',
         content: 'The Module pattern is used to create private and public methods and variables inside a single object.',
-        order: 1
+        order: 1,
+        sectionType: 'PARAGRAPH'
       },
       {
         id: 's2',
         title: 'Singleton Pattern',
         content: 'The Singleton pattern ensures a class has only one instance and provides a global point of access to it.',
-        order: 2
+        order: 2,
+        sectionType: 'PARAGRAPH'
       },
     ]
   }
@@ -196,7 +205,8 @@ export const createArticle = async (url: string): Promise<ApiResponse<Article>> 
         id: `s1-${Date.now()}`,
         title: 'New Section',
         content: 'Add your content here.',
-        order: 1
+        order: 1,
+        sectionType: 'PARAGRAPH'
       }
     ]
   };

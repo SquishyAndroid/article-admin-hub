@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Article, ArticleSection, SectionType } from "../types";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,7 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heading, Image, Paragraph } from "lucide-react";
+import { Heading, Image, Text } from "lucide-react";
 
 interface ArticleDetailModalProps {
   article: Article | null;
@@ -137,12 +136,12 @@ const ArticleDetailModal = ({
       case "ARTICLE_TITLE":
         return <Heading className="h-4 w-4" />;
       case "PARAGRAPH":
-        return <Paragraph className="h-4 w-4" />;
+        return <Text className="h-4 w-4" />;
       case "INLINE_IMAGE":
       case "HERO_IMAGE":
         return <Image className="h-4 w-4" />;
       default:
-        return <Paragraph className="h-4 w-4" />;
+        return <Text className="h-4 w-4" />;
     }
   };
   
