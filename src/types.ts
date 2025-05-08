@@ -12,11 +12,14 @@ export interface Article {
   featuredImage?: string;
 }
 
+export type SectionType = 'ARTICLE_TITLE' | 'PARAGRAPH' | 'INLINE_IMAGE' | 'HERO_IMAGE';
+
 export interface ArticleSection {
   id: string;
   title: string;
   content: string;
   order: number;
+  sectionType: SectionType;
 }
 
 export interface ApiResponse<T> {

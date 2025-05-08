@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Article, ArticleSection } from "../types";
+import { Article, ArticleSection, SectionType } from "../types";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Heading, Image, Paragraph } from "lucide-react";
 
 interface ArticleDetailModalProps {
   article: Article | null;
@@ -62,6 +64,20 @@ const ArticleDetailModal = ({
       sections: updatedSections,
     });
   };
+
+  const handleSectionTypeChange = (
+    sectionId: string,
+    newType: SectionType
+  ) => {
+    const updatedSections = editedArticle.sections.map((section) =>
+      section.id === sectionId ? { ...section, sectionType: newType } : section
+    );
+    
+    setEditedArticle({
+      ...editedArticle,
+      sections: updatedSections,
+    });
+  };
   
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const tagsString = e.target.value;
@@ -96,6 +112,7 @@ const ArticleDetailModal = ({
       title: "New Section",
       content: "Add your content here.",
       order: editedArticle.sections.length + 1,
+      sectionType: "PARAGRAPH"
     };
     
     setEditedArticle({
@@ -113,6 +130,20 @@ const ArticleDetailModal = ({
       ...editedArticle,
       sections: updatedSections,
     });
+  };
+
+  const getSectionTypeIcon = (type: SectionType) => {
+    switch (type) {
+      case "ARTICLE_TITLE":
+        return <Heading className="h-4 w-4" />;
+      case "PARAGRAPH":
+        return <Paragraph className="h-4 w-4" />;
+      case "INLINE_IMAGE":
+      case "HERO_IMAGE":
+        return <Image className="h-4 w-4" />;
+      default:
+        return <Paragraph className="h-4 w-4" />;
+    }
   };
   
   return (
@@ -149,16 +180,6 @@ const ArticleDetailModal = ({
           </TabsList>
           
           <TabsContent value="content" className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="main-content">Summary</Label>
-              <Textarea
-                id="main-content"
-                value={editedArticle.content}
-                onChange={(e) => handleInputChange(e, "content")}
-                rows={4}
-              />
-            </div>
-            
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-medium">Sections</h3>
@@ -171,12 +192,14 @@ const ArticleDetailModal = ({
                 {editedArticle.sections.map((section) => (
                   <AccordionItem key={section.id} value={section.id}>
                     <AccordionTrigger className="py-2">
-                      <Input
-                        value={section.title}
-                        onChange={(e) => handleSectionChange(e, section.id, "title")}
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-4/5"
-                      />
+                      <div className="flex items-center gap-2 w-4/5">
+                        {getSectionTypeIcon(section.sectionType)}
+                        <Input
+                          value={section.title}
+                          onChange={(e) => handleSectionChange(e, section.id, "title")}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -190,12 +213,35 @@ const ArticleDetailModal = ({
                       </Button>
                     </AccordionTrigger>
                     <AccordionContent>
-                      <Textarea
-                        value={section.content}
-                        onChange={(e) => handleSectionChange(e, section.id, "content")}
-                        rows={6}
-                        className="mt-2"
-                      />
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor={`section-type-${section.id}`}>Section Type</Label>
+                          <Select
+                            value={section.sectionType}
+                            onValueChange={(value: SectionType) => handleSectionTypeChange(section.id, value)}
+                          >
+                            <SelectTrigger id={`section-type-${section.id}`}>
+                              <SelectValue placeholder="Select a section type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ARTICLE_TITLE">Article Title</SelectItem>
+                              <SelectItem value="PARAGRAPH">Paragraph</SelectItem>
+                              <SelectItem value="INLINE_IMAGE">Inline Image</SelectItem>
+                              <SelectItem value="HERO_IMAGE">Hero Image</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor={`section-content-${section.id}`}>Content</Label>
+                          <Textarea
+                            id={`section-content-${section.id}`}
+                            value={section.content}
+                            onChange={(e) => handleSectionChange(e, section.id, "content")}
+                            rows={6}
+                          />
+                        </div>
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                 ))}

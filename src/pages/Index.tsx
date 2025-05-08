@@ -24,8 +24,16 @@ const Index = () => {
       try {
         const response = await fetchArticles();
         if (response.success) {
-          setArticles(response.data);
-          setFilteredArticles(response.data);
+          // Ensure all articles have sectionType field
+          const updatedArticles = response.data.map(article => ({
+            ...article,
+            sections: article.sections.map(section => ({
+              ...section,
+              sectionType: section.sectionType || 'PARAGRAPH'
+            }))
+          }));
+          setArticles(updatedArticles);
+          setFilteredArticles(updatedArticles);
         } else {
           toast({
             title: "Error",
@@ -98,7 +106,13 @@ const Index = () => {
       const response = await createArticle(url);
       if (response.success) {
         // Add the new article to the list
-        const newArticle = response.data;
+        const newArticle = {
+          ...response.data,
+          sections: response.data.sections.map(section => ({
+            ...section,
+            sectionType: section.sectionType || 'PARAGRAPH'
+          }))
+        };
         setArticles([newArticle, ...articles]);
         setFilteredArticles([newArticle, ...filteredArticles]);
         setIsCreateModalOpen(false);
